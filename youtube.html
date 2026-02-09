@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube</title>
+    <link rel="icon" href="imagenes/logito.png" type="image/png">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+/* Botón + Crear - estilo YouTube actual (ovalado, negro, hover efecto) */
+.create-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #2d2c2c;
+  border: 1px solid #303030;
+  border-radius: 999px;       /* ovalado perfecto */
+  padding: 8px 16px;
+  color: #f1f1f1;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 8px;          /* espacio con el siguiente ícono */
+}
+
+.create-btn:hover {
+  background: #272727;
+  border-color: #4c4b4b;
+}
+
+.plus-icon {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.create-text {
+  white-space: nowrap;
+}
+
+/* En pantallas pequeñas (mobile), oculta el texto "Crear" y deja solo el + */
+@media (max-width: 600px) {
+  .create-btn {
+    padding: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+  }
+
+  .create-text {
+    display: none;
+  }
+
+  .plus-icon {
+    font-size: 24px;
+  }
+}
+       .sidebar-footer {
+  padding: 16px 24px 24px;
+  font-size: 12px;
+  color: #aaaaaa;
+  border-top: 1px solid #303030;
+  margin-top: 16px;
+}
+
+.footer-links-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.footer-links-sidebar a {
+  color: #aaaaaa;
+  text-decoration: none;
+}
+
+.footer-links-sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.footer-copyright-sidebar {
+  color: #717171;
+  text-align: left;
+  margin-top: 8px;
+}
+/* Sección "Más de YouTube" con logos reales (sin cuadrados) */
+.more-youtube {
+  margin: 16px 0 8px 0;
+}
+
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid #303030;
+  margin: 8px 16px;
+}
+
+/* Estilo para los logos (ajuste perfecto en sidebar) */
+.service-logo {
+  width: 24px;                 /* tamaño idéntico al de los íconos Material */
+  height: 24px;
+  object-fit: contain;         /* muestra el logo completo sin recorte ni deformación */
+  object-position: center;
+  flex-shrink: 0;              /* no se achica */
+  border-radius: 4px;          /* bordes suaves como en YouTube real (opcional) */
+}
+
+/* Elimina el fondo de color anterior si lo tenías */
+.youtube-icon {
+  display: none;  /* o simplemente quita la clase .youtube-icon del HTML */
+}
+
+/* Mantén los estilos generales para consistencia */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 24px;
+  gap: 24px;
+  font-size: 14px;
+  color: #f1f1f1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sidebar-item:hover {
+  background: #272727;
+}
+
+.material-icons {
+  font-size: 24px;
+  color: #f1f1f1;
+}
+
+/* Truncado para textos largos */
+.sidebar-item span:nth-child(2) {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/*Hasta aqui*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    .sidebar-section{
+    padding-top:8px;
+}
+
+.sidebar-title{
+    display:flex;
+    align-items:center;
+    gap:6px;   /* controla distancia entre texto y flecha */
+    padding:8px 24px;
+    font-size:14px;
+    font-weight:500;
+}
+
+
+.sidebar-title:hover{
+    background:#272727;
+    border-radius:10px;
+}
+
+.sidebar-title .material-icons{
+    font-size:20px;
+    color:#aaa;
+}
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #0f0f0f;
+            color: #f1f1f1;
+            min-height: 100vh;
+        }
+
+        /* Header / Barra superior */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: #0f0f0f;
+            border-bottom: 1px solid #303030;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 1000;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .youtube-logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .youtube-logo .red-dot {
+            width: 10px;
+            height: 10px;
+            background: #f00;
+            border-radius: 50%;
+        }
+
+        .search-area {
+            flex: 0 1 728px;
+            display: flex;
+            align-items: center;
+            max-width: 650px;
+        }
+
+        .search-box {
+            flex: 1;
+            height: 40px;
+            background: #121212;
+            border: 1px solid #303030;
+            border-radius: 40px 0 0 40px;
+            padding: 0 16px;
+            color: rgb(84, 81, 97);
+            font-size: 16px;
+        }
+
+        .search-btn {
+            width: 64px;
+            height: 40px;
+            background: #222;
+            border: 1px solid #303030;
+            border-left: none;
+            border-radius: 0 40px 40px 0;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .mic-btn {
+            width: 40px;
+            height: 40px;
+            background: #181818;
+            border-radius: 50%;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .right-icons {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+      .avatar {
+  width: 32px;               /* tamaño típico de YouTube */
+  height: 32px;
+  border-radius: 50%;        /* hace que sea perfectamente circular */
+  overflow: hidden;          /* recorta la imagen si es rectangular */
+  background: #333;          /* color de fondo si la foto no carga */
+  cursor: pointer;           /* indica que es clicable */
+  flex-shrink: 0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;         /* rellena el círculo recortando bordes */
+  object-position: center;   /* centra la cara/persona */
+  display: block;
+}
+
+/* Hover opcional (como en YouTube real) */
+.avatar:hover {
+  box-shadow: 0 0 0 2px #ffffff33; /* borde blanco tenue */
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            bottom: 0;
+            width: 240px;
+            background: #0f0f0f;
+            border-right: 1px solid #303030;
+            padding: 12px 0;
+            overflow-y: auto;
+            z-index: 999;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 24px;
+            gap: 24px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover,
+        .sidebar-item.active {
+            background: #272727;
+        }
+
+        .sidebar hr {
+            border: none;
+            border-top: 1px solid #303030;
+            margin: 8px 0;
+        }
+.search-container{
+    position:relative;
+    flex:1;
+    display:flex;
+}
+
+.search-box{
+    color:white;
+}
+
+.clear-btn{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:20px;
+    color:#ffffff;
+    cursor:pointer;
+    display:none;
+}
+
+.clear-btn:hover{
+    color:rgb(255, 255, 255);
+}
+
+        /* Chips / categorías */
+        .chips {
+            position: fixed;
+            top: 56px;
+            left: 240px;
+            right: 0;
+            height: 56px;
+            background: #0f0f0f;
+            border-bottom: 1px solid #000000;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+            z-index: 900;
+        }
+
+        .chip {
+            height: 32px;
+            padding: 0 16px;
+            background: #272727;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .chip.active {
+            background: #f1f1f1;
+            color: #0f0f0f;
+        }
+.chips::-webkit-scrollbar{
+    display:none;
+}
+
+.chips{
+    scrollbar-width:none; /* Firefox */
+}
+       /* Contenido principal */
+.main-content {
+  margin-left: 240px;
+  margin-top: 112px; /* header 56 + chips 56 */
+  padding: 24px 16px;
+  max-width: 100%;
+}
+
+      .videos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);   /* ← 3 videos por fila en desktop */
+  gap: 24px 16px;
+  max-width: 1280px;   /* límite para no estirarse demasiado en pantallas muy anchas */
+  margin: 0 auto;      /* centra el grid */
+}
+
+/* Ajustes responsivos */
+@media (max-width: 1100px) {
+  .videos-grid {
+    grid-template-columns: repeat(3, 1fr);  /* 2 por fila en tablets/mediano */
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar { width: 72px; }
+  .sidebar-item span { display: none; }
+  .main-content { margin-left: 72px; }
+  
+  .videos-grid {
+    grid-template-columns: 1fr;             /* 1 por fila en móvil */
+    gap: 16px;
+  }
+  
+  .search-area { max-width: 400px; }
+}
+        .video-card {
+            cursor: pointer;
+        }
+
+        .thumbnail-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #222;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 158px;
+            /* proporción ~16:9 */
+            object-fit: cover;
+        }
+
+        .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.85);
+            color: rgb(255, 255, 255);
+            font-size: 12px;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        .video-info {
+            padding: 12px 0;
+            display: flex;
+            gap: 12px;
+        }
+
+       /* Avatar circular del canal - ajusta la imagen perfectamente dentro del círculo */
+.channel-avatar {
+  width: 36px;               /* tamaño estándar de YouTube para avatares en tarjetas */
+  height: 36px;
+  border-radius: 50%;        /* círculo perfecto */
+  overflow: hidden;          /* recorta cualquier parte que sobresalga */
+  background: #333;          /* color de respaldo si la imagen no carga */
+  flex-shrink: 0;            /* evita que se comprima */
+}
+
+.channel-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;         /* rellena el círculo recortando bordes (lo más parecido a YouTube) */
+  object-position: center;   /* centra la imagen (ideal para caras) */
+  display: block;
+}
+
+/* Hover opcional: efecto como en YouTube */
+.video-card:hover .channel-avatar {
+  box-shadow: 0 0 0 2px #ffffff22;
+  transform: scale(1.08);
+  transition: all 0.2s ease;
+}
+
+        .video-details {
+            flex: 1;
+        }
+
+        .video-title {
+            font-size: 14px;
+            line-height: 20px;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .channel-name,
+        .video-meta {
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 2px;
+        }
+
+        /* Scrollbar personalizado (opcional) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #777;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 72px;
+            }
+
+            .sidebar-item span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 72px;
+            }
+
+            .search-area {
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 0 8px;
+            }
+
+            .search-area {
+                flex: 1;
+            }
+
+            .right-icons {
+                gap: 16px;
+            }
+
+            .mic-btn,
+            .icon-btn:not(.menu-btn) {
+                display: none;
+            }
+        }
+
+        .sub-avatar {
+  width: 24px;                 /* tamaño típico de YouTube en sidebar */
+  height: 24px;                /* puedes cambiar a 32px si prefieres más grande */
+  border-radius: 50%;          /* hace el círculo perfecto */
+  overflow: hidden;            /* recorta cualquier parte que sobresalga */
+  flex-shrink: 0;              /* no se achica nunca */
+  background: #333;            /* color de respaldo si la imagen falla */
+}
+
+.sub-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* ← esto es lo que hace que se ajuste al círculo */
+  object-position: center;     /* centra la imagen dentro del círculo */
+  display: block;              /* elimina espacios extra abajo */
+}
+
+/* Resto de estilos (hover, dots, etc.) */
+.subscription-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 24px;
+  gap: 16px;
+  color: #f1f1f1;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.subscription-item:hover {
+  background: #272727;
+}
+
+.sub-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;     /* agrega ... si el nombre es muy largo */
+}
+.live-icon{
+    color:red;
+/* animation:pulse 20s infinite;*/
+}
+
+@keyframes pulse{
+    0%{opacity:1;}
+    50%{opacity:0.3;}
+    100%{opacity:1;}
+}
+
+.live-dot,
+.blue-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+.live-dot {
+  background: #f00;            /* rojo para notificaciones nuevas / live */
+}
+
+.blue-dot {
+  background: #1e7ab0;            /* gris para sin actividad */
+}
+
+.more {
+  color: #aaa;
+  font-weight: 500;
+}
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-area">
+            <span class="material-icons menu-btn">menu</span>
+            <div class="youtube-logo">
+            <img src="imagenes/logo.png" alt="Logo" style="height:30px;">
+            </div>
+
+        </div>
+<div class="search-area">
+
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchInput" placeholder="Buscar">
+
+        <span class="material-icons clear-btn" id="clearBtn">close</span>
+    </div>
+
+    <button class="search-btn material-icons">search</button>
+    <div class="mic-btn material-icons">mic</div>
+
+</div>
+
+<div class="right-icons">
+    <!-- Reemplazamos videocam por el botón + Crear -->
+    <button class="create-btn" title="Crear">
+        <span class="plus-icon">+</span>
+        <span class="create-text">Crear</span>
+    </button>
+
+    <!-- Los otros íconos siguen igual -->
+    <button class="icon-btn material-icons">notifications</button>
+    <div class="avatar"><img src="imagenes/usuaria.png" alt="Tu foto de perfil"></div>
+    
+</div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-item active">
+            <span class="material-icons">home</span>
+            <span>Inicio</span>
+        </div>
+    <div class="sidebar-item">
+    
+        <img src="imagenes/short.png" class="shorts-icon">
+    
+        <span>Shorts</span>
+    
+    </div>
+
+<div class="sidebar-section">
+
+    <div class="sidebar-title">
+        <span>Suscripciones</span>
+        <span class="material-icons">chevron_right</span>
+    </div>
+
+</div>
+<script>
+
+    const input = document.getElementById("searchInput");
+    const clearBtn = document.getElementById("clearBtn");
+
+    input.addEventListener("input", () => {
+
+        if (input.value.length > 0) {
+            clearBtn.style.display = "block";
+        } else {
+            clearBtn.style.display = "none";
+        }
+
+    });
+
+    clearBtn.addEventListener("click", () => {
+
+        input.value = "";
+        clearBtn.style.display = "none";
+        input.focus();
+
+    });
+
+</script>
+
+<script>
+    function toggleExplore() {
+        const extra = document.getElementById('extra-explore');
+        const icon = document.getElementById('explore-toggle-icon');
+        const text = document.getElementById('explore-toggle-text');
+
+        if (extra.style.display === 'none' || extra.style.display === '') {
+            extra.style.display = 'block';
+            icon.style.transform = 'rotate(180deg)';
+            text.textContent = 'Mostrar menos';
+        } else {
+            extra.style.display = 'none';
+            icon.style.transform = 'rotate(0deg)';
+            text.textContent = 'Mostrar más';
+        }
+    }
+</script>
+
+<script>
+    function toggleChannels() {
+
+        let extra = document.getElementById("extra-channels");
+        let text = document.getElementById("toggle-text");
+        let icon = document.getElementById("toggle-icon");
+
+        if (extra.style.display === "none") {
+            extra.style.display = "block";
+            text.innerText = "Mostrar menos";
+            icon.innerText = "expand_less";
+        } else {
+            extra.style.display = "none";
+            text.innerText = "Mostrar más";
+            icon.innerText = "expand_more";
+        }
+    }
+</script>
+
+      <script>
+        function toggleTu() {
+            const extra = document.getElementById('extra-tu');
+            const icon = document.getElementById('tu-toggle-icon');
+            const text = document.getElementById('tu-toggle-text');
+
+            if (extra.style.display === 'none' || extra.style.display === '') {
+                extra.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+                text.textContent = 'Mostrar menos';
+            } else {
+                extra.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+                text.textContent = 'Mostrar más';
+            }
+        }
+    </script>  
+    
+    <div class="subscription-item">
+    
+        <div class="sub-avatar">
+            <img src="imagenes/la-rosa.jpg" alt="La Rosa de Guadalupe">
+        </div>
+    
+        <span class="sub-name">La Rosa de Guadalupe</span>
+    
+        <span class="live-status">
+            <span class="material-icons live-icon">sensors</span>
+        </span>
+    
+    </div>
+
+    
+        <div class="subscription-item">
+            <div class="sub-avatar">
+                <img src="imagenes/noticias.jpg" alt="Noticias Caracol">
+            </div>
+            <span class="sub-name">Noticias Caracol</span>
+    <span class="live-status">
+        <span class="material-icons live-icon">sensors</span>
+    </span>
+        </div>
+    
+        <div class="subscription-item">
+            <div class="sub-avatar">
+                <img src="imagenes/cancha.jpg" alt="Cábala Futbolera">
+            </div>
+            <span class="sub-name">Cábala Futbolera</span>
+            <span class="live-status">
+                <span class="material-icons live-icon">sensors</span>
+            </span>
+        </div>
+    
+        <div class="subscription-item">
+            <div class="sub-avatar">
+                <img src="imagenes/beast.jpg" alt="MrBeast">
+            </div>
+            <span class="sub-name">MrBeast</span>
+            <span class="blue-dot"></span>
+        </div>
+    
+    <!-- canales ocultos -->
+    <div id="extra-channels" style="display:none;">
+        <div class="subscription-item">
+            <div class="sub-avatar">
+                <img src="imagenes/desafio.jpg" alt="El Desafio">
+            </div>
+            <span class="sub-name">El Desafio</span>
+            <span class="blue-dot"></span>
+        </div>
+        <div class="subscription-item">
+            <div class="sub-avatar">
+                <img src="imagenes/tiktok.jpg" alt="Top Tik Tok">
+            </div>
+            <span class="sub-name">Top Tik Tok</span>
+        </div>
+    </div>
+    
+    <!-- botón mostrar -->
+    <div class="subscription-item" onclick="toggleChannels()">
+        <span class="material-icons" id="toggle-icon">expand_more</span>
+        <span id="toggle-text">Mostrar más</span>
+    </div>
+        <hr>
+        <!-- Sección "Tú" en sidebar - con toggle para los últimos 3 ítems -->
+        <div class="sidebar-section">
+           
+    <div class="sidebar-title">
+        <span>Tú</span>
+        <span class="material-icons">chevron_right</span>
+    </div>
+        
+            <!-- Items siempre visibles -->
+            <div class="sidebar-item">
+                <span class="material-icons">history</span>
+                <span>Historial</span>
+            </div>
+        
+            <div class="sidebar-item">
+                <span class="material-icons">playlist_play</span>
+                <span>Listas de reproducción</span>
+            </div>
+        
+            <div class="sidebar-item">
+                <span class="material-icons">watch_later</span>
+                <span>Ver más tarde</span>
+            </div>
+        
+            <!-- Items ocultos inicialmente (los últimos 3) -->
+            <div id="extra-tu" style="display:none;">
+
+                <div class="sidebar-item">
+                    <span class="material-icons">thumb_up</span>
+                    <span>Videos que me gustan</span>
+                </div>
+                <div class="sidebar-item">
+                    <span class="material-icons">smart_display</span>
+                    <span>Mis videos</span>
+                </div>
+        
+                <div class="sidebar-item">
+                    <span class="material-icons">school</span>
+                    <span>Cursos</span>
+                </div>
+            </div>
+        
+            <!-- Botón Mostrar más / menos -->
+            <div class="sidebar-item expand" onclick="toggleTu()">
+                <span class="material-icons" id="tu-toggle-icon">expand_more</span>
+                <span id="tu-toggle-text">Mostrar más</span>
+            </div>
+        </div>
+        
+
+        <!-- Opcional: si quieres separar con línea -->
+        
+        <hr>
+        <!-- Sección EXPLORAR en sidebar -->
+        <div class="sidebar-section explore-section">
+            <div class="sidebar-title">
+                <span>Explorar</span>
+            </div>
+        
+            <!-- Items siempre visibles -->
+            <div class="sidebar-item">
+                <span class="explore-icon">
+                    <span class="material-icons">music_note</span>
+                </span>
+                <span>Música</span>
+            </div>
+        
+            <div class="sidebar-item">
+                <span class="explore-icon">
+                    <span class="material-icons">live_tv</span>
+                </span>
+                <span>En directo</span>
+            </div>
+        
+            <div class="sidebar-item">
+                <span class="explore-icon">
+                    <span class="material-icons">sports_esports</span>
+                </span>
+                <span>Videojuegos</span>
+            </div>
+        
+            <!-- Canales / categorías ocultas -->
+            <div id="extra-explore" style="display:none;">
+                <div class="sidebar-item">
+                    <span class="explore-icon">
+                        <span class="material-icons">article</span>
+                    </span>
+                    <span>Noticias</span>
+                </div>
+        
+                <div class="sidebar-item">
+                    <span class="explore-icon">
+                        <span class="material-icons">sports_soccer</span>
+                    </span>
+                    <span>Deportes</span>
+                </div>
+        
+                <div class="sidebar-item">
+                    <span class="explore-icon">
+                        <span class="material-icons">school</span>
+                    </span>
+                    <span>Aprendizaje</span>
+                </div>
+            </div>
+        
+            <!-- Botón Mostrar más / menos -->
+            <div class="sidebar-item expand" onclick="toggleExplore()">
+                <span class="material-icons" id="explore-toggle-icon">expand_more</span>
+                <span id="explore-toggle-text">Mostrar más</span>
+            </div>
+        </div>
+        <hr>
+<!-- Sección "Más de YouTube" con logos en lugar de cuadrados -->
+<div class="sidebar-section more-youtube">
+    <div class="sidebar-title">
+        <span>Más de YouTube</span>
+    </div>
+
+    <div class="sidebar-item">
+        <img src="imagenes/logito.png" alt="YouTube Premium" class="service-logo">
+        <span>YouTube Premium</span>
+    </div>
+
+    <div class="sidebar-item">
+        <img src="imagenes/studio.png" alt="YouTube Studio" class="service-logo">
+        <span>YouTube Studio</span>
+    </div>
+
+    <div class="sidebar-item">
+        <img src="imagenes/music.png" alt="YouTube Music" class="service-logo">
+        <span>YouTube Music</span>
+    </div>
+
+    <div class="sidebar-item">
+        <img src="imagenes/kid.png" alt="YouTube Kids" class="service-logo">
+        <span>YouTube Kids</span>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <!-- El resto (Configuración, etc.) queda igual -->
+    <div class="sidebar-item">
+        <span class="material-icons">settings</span>
+        <span>Configuración</span>
+    </div>
+
+    <div class="sidebar-item">
+        <span class="material-icons">flag</span>
+        <span>Historial de denuncias</span>
+    </div>
+
+    <div class="sidebar-item">
+        <span class="material-icons">help_outline</span>
+        <span>Ayuda</span>
+    </div>
+
+    <div class="sidebar-item">
+        <span class="material-icons">feedback</span>
+        <span>Enviar sugerencias</span>
+    </div>
+</div>
+
+<!-- Footer dentro de sidebar (versión móvil o colapsada) -->
+<div class="sidebar-footer">
+    <div class="footer-links-sidebar">
+        <a href="#">Información de Prensa</a>
+        <a href="#">Derechos de autor • Contactar</a>
+        <a href="#">Creadores • Publicidad</a>
+        <a href="#">Desarrolladores</a>
+    </div>
+
+    <div class="footer-links-sidebar">
+        <a href="#">Términos • Privacidad</a>
+        <a href="#">Política y seguridad</a>
+        <a href="#">Cómo funciona YouTube</a>
+        <a href="#">Probar funciones nuevas</a>
+    </div>
+
+    <div class="footer-copyright-sidebar">
+        © 2026 Google LLC
+    </div>
+</div>
+        <!-- Puedes agregar más secciones: Suscripciones, etc. -->
+    </nav>
+
+    <!-- Chips -->
+    <div class="chips">
+        <div class="chip active">Todo</div>
+        <div class="chip">Música</div>
+        <div class="chip">Mixes</div>
+        <div class="chip">Telenovelas</div>
+        <div class="chip">Pop indie</div>
+        <div class="chip">R&B contemporáneo</div>
+        <div class="chip">Código fuente</div>
+        <div class="chip">Videojuegos</div>
+        <div class="chip">Reverberaciones</div>
+        <div class="chip">Programación</div>
+        <div class="chip">Pop rock</div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="videos-grid">
+
+    <!-- Video 1 - con avatar circular real -->
+    <div class="video-card">
+        <div class="thumbnail-container">
+            <img class="thumbnail" src="https://picsum.photos/seed/thumb1/320/180" alt="thumbnail">
+            <span class="duration">24:54</span>
+        </div>
+        <div class="video-info">
+            <!-- Avatar con imagen real -->
+            <div class="channel-avatar">
+                <img src="imagenes/la-rosa.jpg" alt="90s HITS">
+            </div>
+    
+            <div class="video-details">
+                <div class="video-title">La Rosa de Guadalupe | MIRAR DEMASIADO | Capitulo 2026 HD</div>
+                <div class="channel-name">90s HITS</div>
+                <div class="video-meta">110 K visualizaciones • hace 1 día</div>
+            </div>
+        </div>
+    </div>
+        <!-- Video 2 - con avatar circular real -->
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="https://i.ytimg.com/vi/YTgkbysOW0I/maxresdefault.jpg" alt="thumbnail">
+                <span class="duration">3:12</span>
+            </div>
+            <div class="video-info">
+                <!-- Avatar del canal con imagen real -->
+                <div class="channel-avatar">
+                    <img src="imagenes/toptunes.jpg" alt="TikTokTunes">
+                    <!-- Alternativa online de prueba (avatar genérico o real): -->
+                    <!-- <img src="https://yt3.ggpht.com/ytc/AIdro_nZ6kZ5wXzZ5wXzZ5wXzZ5wXzZ5wXzZ5wXzZ5w=s48-c-k-c0x00ffffff-no-rj" alt="TikTokTunes"> -->
+                </div>
+        
+                <div class="video-details">
+                    <div class="video-title">Beach Weather - Sex, Drugs, Etc. (sped up / tiktok version) Lyrics</div>
+                    <div class="channel-name">TikTokTunes</div>
+                    <div class="video-meta">2.1 M visualizaciones • hace 2 meses</div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Agrega 4–10 tarjetas más con diferentes imágenes y textos -->
+<!-- Video 3 nuevo - con avatar circular real -->
+<div class="video-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail" src="https://pics.craiyon.com/2025-01-10/c4RcIrSqQCiyPvQXYLhbFA.webp"
+            alt="AI Music Tools">
+        <span class="duration">12:45</span>
+    </div>
+    <div class="video-info">
+        <!-- Avatar del canal con imagen real -->
+        <div class="channel-avatar">
+            <img src="imagenes/music-log.jpg" alt="Tech & Música">
+            <!-- Alternativa online de prueba (avatar genérico o representativo): -->
+            <!-- <img src="https://i.pravatar.cc/48?u=techmusica" alt="Tech & Música"> -->
+            <!-- O usa uno más profesional: https://yt3.ggpht.com/...=s48-c-k-c0x00ffffff-no-rj -->
+        </div>
+
+        <div class="video-details">
+            <div class="video-title">TOP 5 Herramientas de IA para Crear Música 2026 (Gratis)</div>
+            <div class="channel-name">Tech & Música</div>
+            <div class="video-meta">450 K visualizaciones • hace 3 días</div>
+        </div>
+    </div>
+</div>
+<!-- Video 4 nuevo - con avatar circular real -->
+<div class="video-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail" src="https://i.ytimg.com/vi/FItzv1_dsYg/maxresdefault.jpg" alt="K-pop concert">
+        <span class="duration">Live</span>
+    </div>
+    <div class="video-info">
+        <!-- Avatar del canal con imagen real -->
+        <div class="channel-avatar">
+            <img src="imagenes/gama.jpg" alt="GamaboyLyrics">
+            <!-- Alternativa rápida con placeholder online (para probar sin descargar): -->
+            <!-- <img src="https://i.pravatar.cc/48?u=gamaboylyrics" alt="GamaboyLyrics"> -->
+            <!-- O usa uno más realista: https://yt3.ggpht.com/...=s48-c-k-c0x00ffffff-no-rj (busca el canal real) -->
+        </div>
+
+        <div class="video-details">
+            <div class="video-title">Supwel, Winter Kid - Stars Vibe (Lyrics)</div>
+            <div class="channel-name">GamaboyLyrics</div>
+            <div class="video-meta">En vivo • 94 K espectadores</div>
+        </div>
+    </div>
+</div>
+
+<!-- Video 5 nuevo - con avatar circular real -->
+<div class="video-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail"
+            src="https://ca-times.brightspotcdn.com/dims4/default/d8e7d91/2147483647/strip/false/crop/1694x953+0+0/resize/1486x836!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F31%2F15%2F263370228e8d7006511815c4468d%2Fla-1477345158-snap-photo"
+            alt="Telenovela theater">
+        <span class="duration">1:28:09</span>
+    </div>
+    <div class="video-info">
+        <!-- Avatar del canal con imagen real -->
+        <div class="channel-avatar">
+            <img src="imagenes/telenovelas.jpg" alt="Telenovelas Clásicas">
+            <!-- Alternativa rápida para probar sin descargar: -->
+            <!-- <img src="https://i.pravatar.cc/48?u=telenovelasclasicas" alt="Telenovelas Clásicas"> -->
+            <!-- O usa un avatar más temático: https://ui-avatars.com/api/?name=Telenovelas+Clásicas&background=8B0000&color=FFD700&size=128 -->
+        </div>
+
+        <div class="video-details">
+            <div class="video-title">Destino de Deseo - Capítulo Final (Telenovela Completa)</div>
+            <div class="channel-name">Telenovelas Clásicas</div>
+            <div class="video-meta">320 K visualizaciones • hace 5 días</div>
+        </div>
+    </div>
+</div>
+
+<!-- Video 6 nuevo - con avatar circular real -->
+<div class="video-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail"
+            src="https://i.guim.co.uk/img/media/a733de4ac6faf271b3f8b80206766da204b6f322/53_189_2912_1749/master/2912.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=8444658c25ea5d8d807d2c47b620e837"
+            alt="Telenovela cast">
+        <span class="duration">42:30</span>
+    </div>
+    <div class="video-info">
+        <!-- Avatar del canal con imagen real -->
+        <div class="channel-avatar">
+            <img src="imagenes/serie.jpg" alt="Series Latinas">
+            <!-- Alternativa rápida para probar sin descargar: -->
+            <!-- <img src="https://i.pravatar.cc/48?u=serieslatinas" alt="Series Latinas"> -->
+            <!-- O usa un avatar temático: https://ui-avatars.com/api/?name=Series+Latinas&background=4B0082&color=FFD700&size=128 -->
+        </div>
+
+        <div class="video-details">
+            <div class="video-title">Eva Longoria en Telenovela - Episodio 3 Temporada 2</div>
+            <div class="channel-name">Series Latinas</div>
+            <div class="video-meta">890 K visualizaciones • hace 1 semana</div>
+        </div>
+    </div>
+</div>
+
+<!-- Video 7 nuevo (gaming) - con avatar circular real -->
+<div class="video-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail" src="https://i.ytimg.com/vi/Wi_5WSIfPfM/sddefault.jpg" alt="BGMI Update">
+        <span class="duration">2:15:47</span>
+    </div>
+    <div class="video-info">
+        <!-- Avatar del canal con imagen real -->
+        <div class="channel-avatar">
+            <img src="imagenes/juego.jpg" alt="Toxic Gamer">
+            <!-- Alternativa rápida para probar sin descargar: -->
+            <!-- <img src="https://i.pravatar.cc/48?u=toxicgamer" alt="Toxic Gamer"> -->
+            <!-- O usa uno temático gaming: https://ui-avatars.com/api/?name=Toxic+Gamer&background=FF0000&color=FFFFFF&size=128 -->
+        </div>
+
+        <div class="video-details">
+            <div class="video-title">BGMI 3.7 Update Nueva Temporada - Juego en Vivo</div>
+            <div class="channel-name">Toxic Gamer</div>
+            <div class="video-meta">1.2 M visualizaciones • hace 4 días</div>
+        </div>
+    </div>
+</div>
+<!-- Video 8 nuevo - con avatar circular real -->
+<div class="video-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail"
+            src="https://media.gettyimages.com/id/598-76/video/dolly-shot-rear-view-woman-in-singing-on-stage-with-spotlight-she-bows-blows-kisses-to-audience.jpg?s=640x640&k=20&c=gsa23J0k1obhYuhyk8NogZpng9z0zXTahcGrQ29kfjM="
+            alt="Singer on stage">
+        <span class="duration">4:58</span>
+    </div>
+    <div class="video-info">
+        <!-- Avatar del canal con imagen real -->
+        <div class="channel-avatar">
+            <img src="imagenes/vivolife.jpg" alt="Música en Vivo">
+            <!-- Alternativa rápida para probar sin descargar: -->
+            <!-- <img src="https://i.pravatar.cc/48?u=musicaenvivo" alt="Música en Vivo"> -->
+            <!-- O usa uno temático (estilo concierto): https://ui-avatars.com/api/?name=Música+en+Vivo&background=000000&color=FF69B4&size=128 -->
+        </div>
+
+        <div class="video-details">
+            <div class="video-title">Mujer Canta Balada Épica en Concierto (4K)</div>
+            <div class="channel-name">Música en Vivo</div>
+            <div class="video-meta">675 K visualizaciones • hace 2 semanas</div>
+        </div>
+    </div>
+</div>
+
+<!-- Video 9 nuevo (mix) - con avatar circular real -->
+<div class="video-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail" src="https://picsum.photos/seed/mixvibe/320/180" alt="Mix thumbnail">
+        <span class="duration">1:02:19</span>
+    </div>
+    <div class="video-info">
+        <!-- Avatar del canal con imagen real -->
+        <div class="channel-avatar">
+            <img src="imagenes/indie.jpg" alt="Lowkey Mixes">
+            <!-- Alternativa rápida para probar sin descargar: -->
+            <!-- <img src="https://i.pravatar.cc/48?u=lowkeymixes" alt="Lowkey Mixes"> -->
+            <!-- O usa uno temático chill/R&B: https://ui-avatars.com/api/?name=Lowkey+Mixes&background=1A1A2E&color=BB86FC&size=128 -->
+        </div>
+
+        <div class="video-details">
+            <div class="video-title">Mix R&B Contemporáneo 2026 🌙 Chill Vibes</div>
+            <div class="channel-name">Lowkey Mixes</div>
+            <div class="video-meta">950 K visualizaciones • hace 10 días</div>
+        </div>
+    </div>
+</div>
+
+<!-- Video 10 nuevo - con avatar circular real -->
+<div class="video-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail" src="https://picsum.photos/seed/popindie/320/180" alt="Pop indie">
+        <span class="duration">3:45</span>
+    </div>
+    <div class="video-info">
+        <!-- Avatar del canal con imagen real -->
+        <div class="channel-avatar">
+            <img src="imagenes/luna" alt="Indie Discover">
+            <!-- Alternativa rápida para probar sin descargar: -->
+            <!-- <img src="https://i.pravatar.cc/48?u=indiediscover" alt="Indie Discover"> -->
+            <!-- O usa uno con estética indie: https://ui-avatars.com/api/?name=Indie+Discover&background=2E2E3D&color=9D4EDD&size=128 -->
+        </div>
+
+        <div class="video-details">
+            <div class="video-title">Artista Indie Nuevo - Canción Viral Pop 2026</div>
+            <div class="channel-name">Indie Discover</div>
+            <div class="video-meta">410 K visualizaciones • hace 6 días</div>
+        </div>
+    </div>
+</div>
+
+    </main>
+
+</body>
+
+</html>
